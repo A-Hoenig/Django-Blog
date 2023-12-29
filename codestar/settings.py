@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import sys
 from django.contrib.messages import constants as messages
 import dj_database_url
 if os.path.isfile('env.py'):
@@ -28,10 +29,10 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
-    '8000-nielmc-django-blog-tbkovgv7j0.us2.codeanyapp.com', '.herokuapp.com']
+    '8000-ahoenig-djangoblog-a7s54mj4lv1.ws-eu107.gitpod.io', '.herokuapp.com']
 
 
 # Application definition
@@ -110,9 +111,16 @@ DATABASES = {
     'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
 }
 
+if 'test' in sys.argv:
+    DATABASES['default'] = {
+        'ENGINE':'django.db.backends.sqlite3',
+        'NAME': ':memory:',
+    }
+
 CSRF_TRUSTED_ORIGINS = [
     "https://*.codeanyapp.com",
-    "https://*.herokuapp.com"
+    "https://*.herokuapp.com",
+    "https://8000-ahoenig-djangoblog-a7s54mj4lv1.ws-eu107.gitpod.io"
 ]
 
 # Password validation
